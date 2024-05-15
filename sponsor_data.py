@@ -4,9 +4,9 @@ Fetch a specific authenticated graphql endpoint and just return the result
 """
 
 import argparse
-import http.client
 import json
 import urllib.request
+import sys
 
 
 def argparser():
@@ -14,7 +14,6 @@ def argparser():
     args.add_argument(
         "--token",
         help="The bearer token (github perm needed org:read)",
-        required=True,
     )
     args.add_argument(
         "--url",
@@ -27,8 +26,15 @@ def argparser():
         default=False,
     )
 
-
     r = args.parse_args()
+
+    if not r.token:
+        try:
+            f = open("token.txt", "r")
+            r.token = f.read()
+        except FileNotFoundError:
+            pass
+
     return r
 
 
@@ -87,6 +93,7 @@ def main():
         print(e.code, e.reason)
         data = e.fp.read()
         print(data)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
