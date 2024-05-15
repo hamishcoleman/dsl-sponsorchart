@@ -1,0 +1,9 @@
+<html>
+<head>
+</head>
+<body>
+{% set percent = data.organization.monthlyEstimatedSponsorsIncomeInCents // data.organization.sponsorsListing.activeGoal.targetValue %}
+<label for=pg>{{percent}}% towards US${{ data.organization.sponsorsListing.activeGoal.targetValue }} per month goal</label>
+<br>
+<progress id=pg value={{ data.organization.monthlyEstimatedSponsorsIncomeInCents}} max={{ data.organization.sponsorsListing.activeGoal.targetValue * 100}}> {{percent}}% </progress>
+</body>
